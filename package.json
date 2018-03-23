@@ -1,0 +1,21 @@
+{
+  "name": "sfdxstats",
+  "version": "1.0.0",
+  "description": "Salesforce DX local management/stats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "lodash": "^42.9.0",
+    "salesforce-alm": "^42.9.0",
+    "sfdx-node": "0.0.1"
+  },
+  "devDependencies": {
+    "budo": "^9.2.1",
+    "browserify": "^13.1.1"
+  },
+  "author": "Ron Planken",
+  "license": "ISC"
+}
