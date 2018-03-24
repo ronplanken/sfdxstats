@@ -21,11 +21,59 @@
       </nav>
       <div class="container">
         <div class="section">
+          <a class="waves-effect waves-light btn" id="getOrgs"><i class="material-icons left">cloud</i>Get Orgs</a>
           <div id="orgCards" class="row">
+
+          </div>
+          <div id="orgLimits" class="row">
 
           </div>
         </div>
       </div>
     <script src="js/bundle.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script id="card-template" type="text/x-handlebars-template">
+      <div class="col s4 m4">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <div class="row"><i class="material-icons small col">cloud_circle</i><span class="card-title">{{username}}</span>
+            </div>
+            <p>{{url}}</p>
+          </div>
+          <div class="card-action"><a href="#" id="{{id}}">api limits</a>
+          </div>
+        </div>
+      </div>
+    </script>
+    <script id="api-template" type="text/x-handlebars-template">
+      <div class="col s12 m12">
+        <h2>{{title}}</h2>
+          <table>
+              <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Current</th>
+                    <th>Max</th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                  {{#each limits}}
+                  <tr>
+                      <td>{{name}}</td>
+                      <td>{{remaining}}</td>
+                      <td>{{max}}</td>
+                      <td style="width: 550px;">
+                          {{{perc remaining max}}}
+                          <div class="progress">
+                              <div class="determinate" style="width: {{{perc remaining max}}}%"></div>
+                          </div>
+                      </td>
+                    </tr>
+                  {{/each}}
+              </tbody>
+            </table>
+      </div>
+    </script>
   </body>
 </html>

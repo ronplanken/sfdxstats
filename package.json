@@ -4,18 +4,28 @@
   "description": "Salesforce DX local management/stats",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "dev": "budo index.js:public/js/bundle.js --serve js/bundle.js --live --open --dir ./public -v",
+    "dev-server": "node server/index.js",
+    "build": "browserify index.js -o public/js/bundle.js"
   },
   "dependencies": {
     "express": "^4.16.3",
-    "lodash": "^42.9.0",
+    "handlebars": "^4.0.11",
+    "lodash": "^4.17.5",
     "salesforce-alm": "^42.9.0",
-    "sfdx-node": "0.0.1"
+    "sfdx-node": "0.0.1",
+    "uuid": "^3.2.1",
+    "ws": "^5.1.0"
   },
   "devDependencies": {
     "budo": "^9.2.1",
     "browserify": "^13.1.1"
   },
   "author": "Ron Planken",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronplanken/sfdxstats.git"
+  }
 }

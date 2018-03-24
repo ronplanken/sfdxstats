@@ -1,51 +1,37 @@
-const sfdx = require('sfdx-node');
 const _ = require('lodash');
+const hb = require('handlebars');
+var Server = require('./src/server.js');
 
-sfdx.org.list().then(function(data){
-  _.forEach(data.nonScratchOrgs, function(org){ 
-    console.log(org.username);
-  });  
+hb.registerHelper("perc", function(min, max) {
+  min = parseFloat(min);
+  max = parseFloat(max);
+      
+  return Math.round((min / max) * 100);
 });
 
-let cardContainer = document.getElementById("orgCards");
+let newOrgCard = function(title, url, id) {
+  
+  var cardTemplate = hb.compile(document.getElementById("card-template").innerHTML);
 
-let newOrgCard = function(title, url) {
+  var context = {"username": title, "url": url, "id": id};
 
-	let divColContainer = document.createElement("div");
-  divColContainer.className = "col s3 m3";
+  document.getElementById("orgCards").insertAdjacentHTML('beforeend', cardTemplate(context));
 
-	let divCardContainer = document.createElement("div");
-  divCardContainer.className = "card blue-grey darken-1";
-
-  divColContainer.appendChild(divCardContainer);
-
-	let divCardBody = document.createElement("div");
-  divCardBody.className = "card-content white-text";
-
-  divCardContainer.appendChild(divCardBody);
-
-	let divRow = document.createElement("div");
-  divRow.className = "row";
-
-  divCardBody.appendChild(divRow);
-
-  let divCardIcon = document.createElement("i");
-  divCardIcon.className = "material-icons small col";
-  divCardIcon.appendChild(document.createTextNode('cloud_circle'));
-
-	let divCardTitle = document.createElement("span");
-  divCardTitle.className = "card-title";
-  divCardTitle.appendChild(document.createTextNode(title));
-
-	let divCardText = document.createElement("p");
-  divCardText.appendChild(document.createTextNode(url));
-
-  divCardBody.appendChild(divCardText);
-
-  divRow.appendChild(divCardIcon);
-  divRow.appendChild(divCardTitle);
-
-  return divColContainer;
+  document.getElementById(id).addEventListener("click", function() { Server.requestApiLimit(title); } );
 };
 
-cardContainer.appendChild(newOrgCard('Test', 'Test 2'));
+let newApiLimits = function(title, limits) {
+  
+  var apiTemplate = hb.compile(document.getElementById("api-template").innerHTML);
+
+  var context = {"title": title, "limits": limits};
+
+  document.getElementById("orgLimits").innerHTML = apiTemplate(context);
+};
+
+Server.addCard = newOrgCard;
+Server.addLimits = newApiLimits;
+
+Server.setup();
+
+document.getElementById("getOrgs").addEventListener("click", function() { document.getElementById("orgCards").innterHTML = ""; Server.requestOrgs(); } );
